@@ -4,9 +4,10 @@ import path from 'path'
 import matter from 'gray-matter'
 import Link from 'next/link'
 import Post from '../components/Post'
+import sortByDate from '../utils'
 
 export default function HomePage({ posts }) {
-  console.log(posts)
+  // posts.map((post) => console.log(post.date))
   return (
     <Layout>
       <h1 className='text-5xl border-b-4 p-5 font-bold'>Latest Posts</h1>
@@ -16,9 +17,7 @@ export default function HomePage({ posts }) {
           <Post
             key={index}
             post={post}
-          >
-            {post.frontmatter.title}
-          </Post>
+          ></Post>
         ))}
       </div>
       <Link
@@ -49,10 +48,11 @@ export async function getStaticProps() {
     return {
       slug,
       frontmatter,
+      // date: Date.parse(frontmatter.date),
     }
   })
-
+  // posts.sort(sortByDate).map((post) => console.log(post.date))
   return {
-    props: { posts },
+    props: { posts: posts.sort(sortByDate).slice(0, 6) },
   }
 }
