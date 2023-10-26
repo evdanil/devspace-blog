@@ -26,7 +26,7 @@ function PostPage({
           className='w-full rounded'
         />
         <div className='flex justify-between items-center bg-gray-100 p-2 my-8'>
-          <div lassName='flex items-center'>
+          <div className='flex items-center'>
             <img
               src={author_image}
               className='mx-4 w-10 h-10 object-cover rounded-full hidden sm:block'
