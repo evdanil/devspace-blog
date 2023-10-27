@@ -1,13 +1,9 @@
-import Layout from '../components/Layout'
-import fs from 'fs'
-import path from 'path'
-import matter from 'gray-matter'
+import Layout from '@/components/Layout'
 import Link from 'next/link'
-import Post from '../components/Post'
-import sortByDate from '../utils'
+import Post from '@/components/Post'
+import { getPosts } from '@/lib/posts'
 
 export default function HomePage({ posts }) {
-  // posts.map((post) => console.log(post.date))
   return (
     <Layout>
       <h1 className='text-5xl border-b-4 p-5 font-bold'>Latest Posts</h1>
@@ -33,26 +29,7 @@ export default function HomePage({ posts }) {
 }
 
 export async function getStaticProps() {
-  const files = fs.readdirSync(path.join('posts'))
-
-  const posts = files.map((filename) => {
-    const slug = filename.replace('.md', '')
-
-    const markdownWithMeta = fs.readFileSync(
-      path.join('posts', filename),
-      'utf-8'
-    )
-
-    const { data: frontmatter } = matter(markdownWithMeta)
-
-    return {
-      slug,
-      frontmatter,
-      // date: Date.parse(frontmatter.date),
-    }
-  })
-  // posts.sort(sortByDate).map((post) => console.log(post.date))
   return {
-    props: { posts: posts.sort(sortByDate).slice(0, 6) },
+    props: { posts: getPosts().slice(0, 6) },
   }
 }
