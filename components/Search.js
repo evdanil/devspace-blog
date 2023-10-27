@@ -12,8 +12,8 @@ function Search() {
         setSearchResults([])
       } else {
         const res = await fetch(`/api/search?q=${searchTerm}`)
-        const data = await res.json()
-        const { results } = JSON.parse(data)
+        const { results } = await res.json()
+
         setSearchResults(results)
       }
     }
