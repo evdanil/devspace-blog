@@ -4,6 +4,8 @@ import Post from '@/components/Post'
 import { getPosts } from '@/lib/posts'
 
 export default function HomePage({ posts }) {
+  console.log(posts[1].frontmatter.date)
+  console.log(typeof posts[1].frontmatter.date)
   return (
     <Layout>
       <h1 className='text-5xl border-b-4 p-5 font-bold'>Latest Posts</h1>
