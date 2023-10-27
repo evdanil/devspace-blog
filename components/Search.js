@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { FaSearch, faSearch } from 'react-icons/fa'
 import SearchResults from './SearchResults'
-import Post from './Post'
 
 function Search() {
   const [searchTerm, setSearchTerm] = useState('')
