@@ -5,21 +5,29 @@ import matter from 'gray-matter'
 import Post from '@/components/Post'
 import sortByDate from '@/utils/index'
 import { getPosts } from '@/lib/posts'
+import CategoryList from '@/components/CategoryList'
 
-export default function CategoryBlogPage({ posts, categoreyName }) {
+export default function CategoryBlogPage({ posts, categoreyName, categories }) {
   return (
     <Layout>
-      <h1 className='text-5xl border-b-4 p-5 font-bold'>
-        Posts in {categoreyName}
-      </h1>
+      <div className='flex justify-between'>
+        <div className='w-3/4 mr-10'>
+          <h1 className='text-5xl border-b-4 p-5 font-bold'>
+            Posts in {categoreyName}
+          </h1>
 
-      <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
-        {posts.map((post, index) => (
-          <Post
-            key={index}
-            post={post}
-          ></Post>
-        ))}
+          <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
+            {posts.map((post, index) => (
+              <Post
+                key={index}
+                post={post}
+              ></Post>
+            ))}
+          </div>
+        </div>
+        <div className='w-1/4'>
+          <CategoryList categories={categories} />
+        </div>
       </div>
     </Layout>
   )
@@ -47,14 +55,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params: { category_name } }) {
+  const posts = getPosts()
   // Filter posts by category
-  const categoryPosts = getPosts().filter(
+  const categoryPosts = posts.filter(
     (post) => post.frontmatter.category.toLowerCase() === category_name
   )
+
+  // get categories for sidebar
+  const categories = posts.map((post) => post.frontmatter.category)
+
+  // dedup categories using hash
+  const uniqueCategories = [...new Set(categories)]
+
   return {
     props: {
       posts: categoryPosts.sort(sortByDate),
       categoreyName: category_name,
+      categories: uniqueCategories,
     },
   }
 }
