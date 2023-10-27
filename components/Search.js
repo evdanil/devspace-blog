@@ -12,9 +12,11 @@ function Search() {
       } else {
         const res = await fetch(`/api/search?q=${searchTerm}`)
         const data = await res.json()
-        console.log(typeof data)
-        setSearchResults(JSON.parse(data).results)
-        console.log(JSON.parse(data).results)
+        const { results } = JSON.parse(data)
+        // console.log(typeof data)
+        // console.log(typeof JSON.parse(data))
+        setSearchResults(results)
+        console.log(results)
       }
     }
     getResults()
